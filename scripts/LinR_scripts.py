@@ -3,48 +3,46 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import mean_squared_error, r2_score
 import pickle
 
-# Load the dataset
-data = pd.read_csv('Data/rawdata/melbourne 2024-01-01 to 2024-10-22.csv')
+# Load the CSV data
+df = pd.read_csv('Data/rawdata/melbourne 2024-01-01 to 2024-10-22.csv')
 
-# Select relevant features and target variable
-features = ['temp', 'humidity', 'windspeed']
-target = 'precip'
+# Convert datetime to numerical feature
+df['datetime'] = pd.to_datetime(df['datetime'])
+df['days_since_start'] = (df['datetime'] - df['datetime'].min()).dt.days
 
-# Prepare the data
-X = data[features]
-y = data[target]
+# Define features and target variables
+features = ['days_since_start']
+target_variables = ['temp', 'feelslike', 'tempmax', 'tempmin', 'precip', 'windgust', 'windspeed', 'sealevelpressure']
 
-# Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Scale the features
+# Initialize StandardScaler
 scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
 
-# Train the linear regression model
-model = LinearRegression()
-model.fit(X_train_scaled, y_train)
+# Function to create and save a linear regression model
+def create_and_save_model(X, y, variable_name):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    
+    # Scale the features
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    
+    model = LinearRegression()
+    model.fit(X_train_scaled, y_train)
+    
+    # Save the model and scaler
+    with open(f'ml_models/{variable_name}_model.pkl', 'wb') as f:
+        pickle.dump((model, scaler), f)
+    
+    # Print model performance
+    train_score = model.score(X_train_scaled, y_train)
+    test_score = model.score(X_test_scaled, y_test)
+    print(f"{variable_name} - Train R² score: {train_score:.4f}, Test R² score: {test_score:.4f}")
 
-# Predict on the test set
-y_pred = model.predict(X_test_scaled)
+# Create and save models for each target variable
+for variable in target_variables:
+    X = df[features]
+    y = df[variable]
+    create_and_save_model(X, y, variable)
 
-# Evaluate the model
-mse = mean_squared_error(y_test, y_pred)
-r2 = r2_score(y_test, y_pred)
-
-print(f"Mean Squared Error: {mse:.2f}")
-print(f"R-squared Score: {r2:.2f}")
-
-# Save the model
-with open('ml_models/linear_regression_model.pkl', 'wb') as file:
-    pickle.dump(model, file)
-
-# Save the scaler
-with open('ml_models/scaler.pkl', 'wb') as file:
-    pickle.dump(scaler, file)
-
-print("Model and scaler saved successfully.")
+print("All models have been created and saved as pickle files.")

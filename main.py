@@ -1,5 +1,7 @@
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from pydantic import BaseModel
 from fastapi.staticfiles import StaticFiles
 import shutil
 import os
@@ -9,6 +11,7 @@ import numpy as np
 from kmeansclustering import run_kmeans_clustering
 from linear_regression import run_linear_regression
 from logistic_regression import run_logistic_regression
+from datetime import datetime, timedelta
 
 app = FastAPI()
 
@@ -75,5 +78,23 @@ def predict_rain(temp: float, humidity: float):
     
     return {"rain": bool(prediction[0])}
 
+@app.get("/data")
+async def get_data(start_date: str, end_date: str):
+    try:
+        start = datetime.strptime(start_date, '%Y-%m-%d')
+        end = datetime.strptime(end_date, '%Y-%m-%d')
+        
+        data = pd.read_csv('Data/DataSets/melbourne_weather_data.csv') 
+        data['datetime'] = pd.to_datetime(data['datetime'])
+        filtered_data = data[(data['datetime'] >= start) & (data['datetime'] <= end)]
+        
+        if filtered_data.empty:
+            raise HTTPException(status_code=404, detail="No data found for the specified date range")
+        
+        return filtered_data.to_dict(orient='records')
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=f"Invalid date format: {str(e)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
 
 
