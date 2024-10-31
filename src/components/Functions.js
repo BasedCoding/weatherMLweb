@@ -109,11 +109,12 @@ const WeatherChart = () => {
     data: [
       {
         x: dates,
-        y: weatherData.map(row => row.windspeed),
-        type: 'bar',
-        name: 'Wind Speed',
-        marker: { color: 'blue' },
-        yaxis: 'y',
+        y: weatherData.map(row => row.sealevelpressure),
+        type: 'scatter',
+        mode: 'lines+markers',
+        name: 'Pressure',
+        line: { color: 'green' },
+        yaxis: 'y2', // This indicates to use the second y-axis
       },
       {
         x: dates,
@@ -121,30 +122,32 @@ const WeatherChart = () => {
         type: 'bar',
         name: 'Wind Gust',
         marker: { color: 'red' },
-        yaxis: 'y',
       },
       {
         x: dates,
-        y: weatherData.map(row => row.sealevelpressure),
-        type: 'scatter',
-        mode: 'lines+markers',
-        name: 'Pressure',
-        line: { color: 'green' },
-        yaxis: 'y2',
+        y: weatherData.map(row => row.windspeed),
+        type: 'bar',
+        name: 'Wind Speed',
+        marker: { color: 'blue' },
       },
     ],
     layout: {
       title: 'Wind Speed, Wind Gust, and Pressure',
       barmode: 'overlay',
       xaxis: { title: 'Date' },
-      yaxis: { title:'Wind Speed / Gust (km/h)' },
-      yaxis2:{
-          title:'Pressure (hPa)',
-          overlaying:'y', 
-          side:'right'
-       }
-    }
+      yaxis: {
+        title: 'Wind Speed / Gust (km/h)',
+        side: 'left',
+      },
+      yaxis2: {
+        title: 'Pressure (hPa)',
+        overlaying: 'y',
+        side: 'right',
+        position: 0.95, 
+      },
+    },
   };
+  
 
   return (
     <Card>
