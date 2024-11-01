@@ -6,6 +6,7 @@ import axios from 'axios';
 import sunnyIcon from './icons/sunny.jpg';
 import rainyIcon from './icons/rainy.jpg';
 
+
 const WeatherChart = () => {
   const [startDate, setStartDate] = useState(moment().subtract(30, 'days').format('YYYY-MM-DD'));
   const [endDate, setEndDate] = useState(moment().subtract(8, 'days').format('YYYY-MM-DD'));
@@ -83,7 +84,8 @@ const WeatherChart = () => {
       xaxis: { title: 'Date' },
       yaxis: { title: 'Temperature (°C)' },
       showlegend: true,
-      hovermode: 'x unified'
+      hovermode: 'x unified',
+      responsive: true,
     },
   };
 
@@ -102,6 +104,7 @@ const WeatherChart = () => {
       title: 'Precipitation',
       xaxis: { title: 'Date' },
       yaxis: { title: 'Precipitation (mm)' },
+      responsive: true,
     },
   };
 
@@ -145,10 +148,11 @@ const WeatherChart = () => {
         side: 'right',
         position: 0.95,
       },
+      responsive: true,
     },
   };
 
-  
+
 
   return (
     <Card>
@@ -171,9 +175,9 @@ const WeatherChart = () => {
 
         {weatherData.length > 0 ? (
           <>
-            <Plot data={temperatureChart.data} layout={temperatureChart.layout} />
-            <Plot data={precipChart.data} layout={precipChart.layout} />
-            <Plot data={windPressureChart.data} layout={windPressureChart.layout} />
+            <Plot style={{ width: '100%' }} data={temperatureChart.data} layout={temperatureChart.layout} />
+            <Plot style={{ width: '100%' }} data={precipChart.data} layout={precipChart.layout} />
+            <Plot style={{ width: '100%' }} data={windPressureChart.data} layout={windPressureChart.layout} />
           </>
         ) : (
           <p>Loading data...</p>
@@ -191,7 +195,7 @@ const WeatherChart = () => {
               onChange={(e) => {
                 const value = Number(e.target.value);
                 if (value < -50) {
-                  setTemp(-50); 
+                  setTemp(-50);
                 } else if (value > 50) {
                   setTemp(50);
                 } else {
@@ -210,7 +214,7 @@ const WeatherChart = () => {
               onChange={(e) => {
                 const value = Number(e.target.value);
                 if (value < 0) {
-                  setHumidity(0); 
+                  setHumidity(0);
                 } else if (value > 100) {
                   setHumidity(100);
                 } else {
