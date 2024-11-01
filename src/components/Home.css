@@ -1,5 +1,67 @@
-.home {
+.main-section{
+  margin: 12vh 0 25vh 0;
+  text-align: center;
+}
+
+.header {
     padding: 2rem;
-    text-align: center;
+    font-size: 2.5vw;
+    font-weight: bold;
   }
-  
+.sub-header{
+  margin: 3vh 0;
+  font-size: 1.5vw;
+  color: grey;
+}
+.btn a{
+  border: 0.1rem black dotted;
+  margin: 10vh 1vw;
+  padding: 0.75rem;
+  border-radius: 10px;
+  font-size: 1.5vw;
+}
+.line{
+  width: 100%;
+  height: 0.5px;
+  background-color: gray;
+}
+.small-section{
+  display: flex;
+  margin: 12vh 0 0 0 ;
+}
+.small-section div{
+  width: 50%;
+  margin-bottom: 10vh;
+}
+.left{
+  text-align: justify;
+  padding-right: 2vw;
+}
+.left h1{
+  font-weight: bold;
+  font-size: 2.5vw;
+  margin-bottom: 3rem;
+}
+.left p{
+  font-size: 1vw;
+}
+.right{
+  text-align: right;
+  padding-left: 2vw;
+  width: 100%
+}
+.right img{
+  width: 90%;
+}
+
+@media(max-width: 900px){
+  .header, .left h1{
+    font-size: 5vw;
+  }
+  .sub-header, .btn a{
+    font-size: 3vw;
+  }
+  .left p{
+    font-size: 2vw;
+  }
+}
