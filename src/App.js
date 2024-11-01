@@ -11,9 +11,9 @@ const App = () => {
       <div className="min-h-screen bg-gray-100">
         <nav className="bg-white shadow-lg">
           <div className="max-w-6xl mx-auto px-4">
-            <div className="flex justify-between items-center py-4">
+            <div className="md:flex justify-between items-center py-4">
               <Link to="/" className="text-lg font-semibold text-gray-700">Assignment 3 Web</Link>
-              <div className="hidden md:flex space-x-4">
+              <div className="space-x-4">
                 <Link to="/" className="text-gray-500 hover:text-green-500 transition duration-300">Home</Link>
                 <Link to="/model-performance" className="text-gray-500 hover:text-green-500 transition duration-300">Model Performance</Link>
                 <Link to="/main-function" className="text-gray-500 hover:text-green-500 transition duration-300">Main Function</Link>
@@ -22,7 +22,7 @@ const App = () => {
             </div>
           </div>
         </nav>
-        <div className="max-w-6xl mx-auto mt-8 px-4">
+        <div className="max-w-6xl mx-auto mt-8 px-4"> 
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/model-performance" element={<ModelPerformance />} />
