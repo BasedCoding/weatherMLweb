@@ -3,6 +3,7 @@ import axios from 'axios';
 import './ModelPerformance.css';
 
 const ModelPerformance = () => {
+  // State all variables
   const [csvFile, setCsvFile] = useState(null);
   const [columns, setColumns] = useState([]);
   const [selectedModel, setSelectedModel] = useState('');
@@ -11,8 +12,10 @@ const ModelPerformance = () => {
   const [filePath, setFilePath] = useState('');
   const [results, setResults] = useState(null);
 
+  // Manange file inputs
   const handleFileChange = (e) => setCsvFile(e.target.files[0]);
 
+  // Upload file and get column data from server
   const handleFileUpload = async () => {
     if (!csvFile) return;
     const formData = new FormData();
@@ -29,6 +32,7 @@ const ModelPerformance = () => {
     }
   };
 
+  // Select model and reset related columns and target
   const handleModelSelection = (model) => {
     setSelectedModel(model);
     setSelectedColumns([]);
@@ -36,6 +40,7 @@ const ModelPerformance = () => {
     setResults(null);
   };
 
+  // Update columns based on chosen model
   const handleColumnSelection = (column) => {
     setSelectedColumns(prev =>
       selectedModel === 'kmeans'
@@ -43,18 +48,20 @@ const ModelPerformance = () => {
           ? prev.filter(col => col !== column)
           : [...prev, column]
         : column !== selectedTarget
-        ? prev.includes(column)
-          ? prev.filter(col => col !== column)
-          : [...prev, column]
-        : prev
+          ? prev.includes(column)
+            ? prev.filter(col => col !== column)
+            : [...prev, column]
+          : prev
     );
   };
 
+  // Assign the target variable, clear it from the selected columns
   const handleTargetSelection = (column) => {
     setSelectedTarget(column);
     setSelectedColumns(prev => prev.filter(col => col !== column));
   };
 
+  // Run the selected model, handle various cases in each model
   const handleRunModel = async () => {
     if (selectedModel === 'kmeans' && selectedColumns.length < 2) {
       alert("Please select at least two columns for KMeans clustering.");
@@ -80,15 +87,17 @@ const ModelPerformance = () => {
     }
   };
 
-return (
+  return (
     <div className="form-container p-4 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Model Performance Analysis</h1>
 
+      {/* File upload section */}
       <div className="upload-section mb-4">
         <input type="file" onChange={handleFileChange} className="mb-2 w-full" />
         <button onClick={handleFileUpload} className="bg-blue-500 text-white px-4 py-2 rounded w-full">Upload CSV</button>
       </div>
 
+      {/* Model selection */}
       {columns.length > 0 && (
         <div className="model-selection mb-4">
           <h2 className="text-xl font-semibold mb-2">Select Model</h2>
@@ -100,6 +109,7 @@ return (
         </div>
       )}
 
+      {/* Column selection */}
       {selectedModel && (
         <div className="column-selection mb-4">
           <h2 className="text-xl font-semibold mb-2">Select Columns for {selectedModel === 'kmeans' ? 'Clustering' : 'Regression'}</h2>
@@ -140,7 +150,8 @@ return (
           </div>
         </div>
       )}
-
+      
+      {/* Execute selected model */}
       {selectedModel && (
         <div className="run-section mb-4">
           <h2 className="text-xl font-semibold mb-2">Run {selectedModel === 'kmeans' ? 'KMeans Clustering' : selectedModel}</h2>
@@ -148,6 +159,7 @@ return (
         </div>
       )}
 
+      {/* Show results and plots based on selected model */}
       {results && (
         <div className="results">
           <h2 className="text-xl font-semibold mb-2">Results</h2>
