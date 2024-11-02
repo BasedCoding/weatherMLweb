@@ -13,8 +13,8 @@ const App = () => {
         <nav className="bg-white shadow-lg">
           <div className="max-w-6xl mx-auto px-4">
             <div className="flex justify-between items-center py-4">
-              <Link to="/" className="text-lg font-semibold text-gray-700">Weather ML Analysis</Link>
-              <div className="hidden md:flex space-x-4">
+              <Link to="/" className="hidden md:flex text-lg font-semibold text-gray-700">Weather ML Analysis</Link>
+              <div className="space-x-4 text-sm sm:text-base">
                 <Link to="/" className="text-gray-500 hover:text-green-500 transition duration-300">Home</Link>
                 <Link to="/model-performance" className="text-gray-500 hover:text-green-500 transition duration-300">Model Performance</Link>
                 <Link to="/main-function" className="text-gray-500 hover:text-green-500 transition duration-300">Main Function</Link>
