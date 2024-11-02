@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSpring, animated } from '@react-spring';
+import { useSpring, animated } from 'react-spring';
 import './Home.css';
 import section1Image from './icons/section1.png'; 
 import section2Image from './icons/section2.png'; 
