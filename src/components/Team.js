@@ -7,6 +7,7 @@ import samuelImage from './icons/samuel.jpg';
 const Team = () => (
   <div>
     <h1 className='header'>Meet Our Team</h1>
+    {/* Team members information */}
     <div className="team-members">
       <div className='team-member'>
         <img src={minhImage} alt="Minh Dang" />

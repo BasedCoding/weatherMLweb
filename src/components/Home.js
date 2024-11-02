@@ -4,6 +4,7 @@ import './Home.css';
 import section1Image from './icons/section1.png'; 
 import section2Image from './icons/section2.png'; 
 
+// Fade animation for sections
 const AnimatedSection = ({ children, delay }) => {
   const props = useSpring({
     opacity: 1,
@@ -15,10 +16,12 @@ const AnimatedSection = ({ children, delay }) => {
   return <animated.div style={props}>{children}</animated.div>;
 };
 
+// Homepage's main component
 const Home = () => {
   const [isHoveredML, setIsHoveredML] = useState(false);
   const [isHoveredWA, setIsHoveredWA] = useState(false);
 
+  // Hover animations for 2 sections
   const mlProps = useSpring({
     transform: isHoveredML ? 'scale(1.05)' : 'scale(1)',
   });
@@ -29,6 +32,7 @@ const Home = () => {
 
   return (
     <div className="home-page-container">
+      {/* Welcome section with animation */}
       <AnimatedSection delay={100}>
         <section className='welcome-section'>
           <div className='header'>
@@ -44,6 +48,7 @@ const Home = () => {
       
       <div className='line'></div>
       
+      {/* ML section with animation */}
       <AnimatedSection delay={300}>
         <section className='machine-learning-section'>
           <animated.div 
@@ -67,6 +72,7 @@ const Home = () => {
       
       <div className='line'></div>
       
+      {/* Weather analysis section with animation */}
       <AnimatedSection delay={500}>
         <section className='weather-analysis-section'>
           <animated.div 

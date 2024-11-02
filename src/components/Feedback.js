@@ -15,8 +15,10 @@ const Feedback = () => {
     <div className="feedback-container">
       <h1>Feedback</h1>
       {submitted ? (
+        // Message if form submitted
         <p>Thank you for your feedback!</p>
       ) : (
+        // Feedback form if not submitted
         <form onSubmit={handleSubmit} className="feedback-form">
           <label>
             Rate your experience:

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Plot from 'react-plotly.js';
 import moment from 'moment';
-import { Card, Input, Button, DatePicker, Space, Row, Col } from 'antd'; 
+import { Card, Input, Button, DatePicker, Space, Row, Col } from 'antd';
 import axios from 'axios';
 import sunnyIcon from './icons/sunny.jpg';
 import rainyIcon from './icons/rainy.jpg';
 
 const WeatherChart = () => {
+  // State all variables
   const [startDate, setStartDate] = useState(moment().subtract(30, 'days'));
   const [endDate, setEndDate] = useState(moment().subtract(8, 'days'));
   const [weatherData, setWeatherData] = useState([]);
@@ -14,10 +15,12 @@ const WeatherChart = () => {
   const [humidity, setHumidity] = useState('');
   const [rainPrediction, setRainPrediction] = useState(null);
 
+  // Automatically update data when date is changed
   useEffect(() => {
     fetchData();
   }, [startDate, endDate]);
 
+  // Fetch data from backend
   const fetchData = async () => {
     try {
       const response = await fetch(`http://localhost:8000/data?start_date=${startDate.format('YYYY-MM-DD')}&end_date=${endDate.format('YYYY-MM-DD')}`);
@@ -33,6 +36,7 @@ const WeatherChart = () => {
     }
   };
 
+  // Rain prediction using temperature and humidity variables
   const handlePredictRain = async () => {
     try {
       const response = await axios.post('http://localhost:8000/predict-rain', null, {
@@ -56,10 +60,11 @@ const WeatherChart = () => {
     style: { width: '100%', height: '100%' },
     margin: { t: 30, l: 50, r: 30, b: 50 },
     barmode: 'overlay',
-    showlegend: true, 
+    showlegend: true,
     hovermode: 'x unified'
   });
 
+  // Temperature chart setup
   const temperatureChart = {
     data: [
       { x: dates, y: weatherData.map(row => row.temp), type: 'bar', name: 'Normal', marker: { color: 'blue' } },
@@ -70,6 +75,7 @@ const WeatherChart = () => {
     layout: createResponsiveLayout('Temperature', 'Date', 'Temperature (°C)'),
   };
 
+  // Precipitation chart setup
   const precipChart = {
     data: [
       { x: dates, y: weatherData.map(row => row.precip), type: 'scatter', mode: 'lines+markers', name: 'Precipitation', line: { color: 'blue' } },
@@ -77,6 +83,7 @@ const WeatherChart = () => {
     layout: createResponsiveLayout('Precipitation', 'Date', 'Precipitation (mm)'),
   };
 
+  // Wind pressure chart setup
   const windPressureChart = {
     data: [
       { x: dates, y: weatherData.map(row => row.sealevelpressure), type: 'scatter', mode: 'lines+markers', name: 'Pressure', line: { color: 'green' }, yaxis: 'y2' },
@@ -89,9 +96,12 @@ const WeatherChart = () => {
     },
   };
 
+  // Render the main page
   return (
     <Card bodyStyle={{ padding: '16px' }}>
       <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+
+        {/* Render a date picker */}
         <Row gutter={[8, 8]}>
           <Col xs={24} sm={12}>
             <DatePicker
@@ -109,6 +119,7 @@ const WeatherChart = () => {
           </Col>
         </Row>
 
+        {/* Render 3 weather charts */}
         {weatherData.length > 0 ? (
           <>
             <Plot data={temperatureChart.data} layout={temperatureChart.layout} style={{ width: '100%', height: '250px' }} />
@@ -119,6 +130,7 @@ const WeatherChart = () => {
           <p>Loading data...</p>
         )}
 
+        {/* Render rain prediction application */}
         <Card title="Rain Prediction" size="small">
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
             <h1 style={{ fontWeight: 'bold' }}>Temperature (°C)</h1>
@@ -126,6 +138,7 @@ const WeatherChart = () => {
               placeholder="Temperature"
               type="number"
               value={temp}
+              // Validate temperature input
               onChange={(e) => {
                 const value = Number(e.target.value);
                 if (value < -50) {
@@ -143,6 +156,7 @@ const WeatherChart = () => {
               placeholder="Humidity"
               type="number"
               value={humidity}
+              // Validate humidity input
               onChange={(e) => {
                 const value = Number(e.target.value);
                 if (value < 0) {
@@ -155,19 +169,21 @@ const WeatherChart = () => {
               }}
               required
             />
-            <Button onClick={handlePredictRain} type="primary" block>
+            {/* Button for rain prediction */}
+            <Button onClick={handlePredictRain} type="primary" disabled={!temp || !humidity} block>
               Predict Rain
             </Button>
 
+            {/* Return result for rain prediction */}
             {rainPrediction !== null && (
               <div style={{ textAlign: 'center' }}>
                 <h3>Prediction Result:</h3>
-                <div style={{ display: 'flex', justifyContent: 'center'}}>
-                <img 
-                  src={rainPrediction === "Rain" ? rainyIcon : sunnyIcon} 
-                  alt={rainPrediction} 
-                  style={{ width: '80px', height: '80px', maxWidth: '100%' }} 
-                />
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <img
+                    src={rainPrediction === "Rain" ? rainyIcon : sunnyIcon}
+                    alt={rainPrediction}
+                    style={{ width: '80px', height: '80px', maxWidth: '100%' }}
+                  />
                 </div>
                 <p>{rainPrediction}</p>
               </div>
