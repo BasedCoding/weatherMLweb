@@ -121,6 +121,7 @@ const WeatherChart = () => {
 
         <Card title="Rain Prediction" size="small">
           <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+            <h1 style={{ fontWeight: 'bold' }}>Temperature (°C)</h1>
             <Input
               placeholder="Temperature"
               type="number"
@@ -137,6 +138,7 @@ const WeatherChart = () => {
               }}
               required
             />
+            <h1 style={{ fontWeight: 'bold' }}>Humidity (%)</h1>
             <Input
               placeholder="Humidity"
               type="number"
