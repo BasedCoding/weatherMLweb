@@ -80,59 +80,61 @@ const ModelPerformance = () => {
     }
   };
 
-  return (
-    <div className="form-container">
-      <h1>Model Performance Analysis</h1>
+return (
+    <div className="form-container p-4 max-w-4xl mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Model Performance Analysis</h1>
 
-      <div className="upload-section">
-        <input type="file" onChange={handleFileChange} />
-        <button onClick={handleFileUpload}>Upload CSV</button>
+      <div className="upload-section mb-4">
+        <input type="file" onChange={handleFileChange} className="mb-2 w-full" />
+        <button onClick={handleFileUpload} className="bg-blue-500 text-white px-4 py-2 rounded w-full">Upload CSV</button>
       </div>
 
       {columns.length > 0 && (
-        <div className="model-selection">
-          <h2>Select Model</h2>
-          <div className="btn-group">
-            <button onClick={() => handleModelSelection('kmeans')}>KMeans Clustering</button>
-            <button onClick={() => handleModelSelection('linear')}>Linear Regression</button>
-            <button onClick={() => handleModelSelection('logistic')}>Logistic Regression</button>
+        <div className="model-selection mb-4">
+          <h2 className="text-xl font-semibold mb-2">Select Model</h2>
+          <div className="btn-group flex flex-wrap gap-2">
+            <button onClick={() => handleModelSelection('kmeans')} className="bg-green-500 text-white px-4 py-2 rounded flex-1">KMeans Clustering</button>
+            <button onClick={() => handleModelSelection('linear')} className="bg-green-500 text-white px-4 py-2 rounded flex-1">Linear Regression</button>
+            <button onClick={() => handleModelSelection('logistic')} className="bg-green-500 text-white px-4 py-2 rounded flex-1">Logistic Regression</button>
           </div>
         </div>
       )}
 
       {selectedModel && (
-        <div className="column-selection">
-          <h2>Select Columns for {selectedModel === 'kmeans' ? 'Clustering' : 'Regression'}</h2>
+        <div className="column-selection mb-4">
+          <h2 className="text-xl font-semibold mb-2">Select Columns for {selectedModel === 'kmeans' ? 'Clustering' : 'Regression'}</h2>
           {selectedModel !== 'kmeans' && (
-            <div className="target-selection">
-              <h3>Select Target Variable</h3>
-              <div className="grid grid-cols-4 gap-4">
+            <div className="target-selection mb-4">
+              <h3 className="text-lg font-medium mb-2">Select Target Variable</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                 {columns.map((col, idx) => (
-                  <label key={idx}>
+                  <label key={idx} className="flex items-center">
                     <input
                       type="radio"
                       name="target"
                       value={col}
                       checked={selectedTarget === col}
                       onChange={() => handleTargetSelection(col)}
+                      className="mr-2"
                     />
-                    {col}
+                    <span className="text-sm">{col}</span>
                   </label>
                 ))}
               </div>
             </div>
           )}
-          <h3>Select {selectedModel === 'kmeans' ? 'Columns' : 'Features'}</h3>
-          <div className="grid grid-cols-4 gap-4">
+          <h3 className="text-lg font-medium mb-2">Select {selectedModel === 'kmeans' ? 'Columns' : 'Features'}</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
             {columns.map((col, idx) => (
-              <label key={idx}>
+              <label key={idx} className="flex items-center">
                 <input
                   type="checkbox"
                   checked={selectedColumns.includes(col)}
                   onChange={() => handleColumnSelection(col)}
                   disabled={selectedModel !== 'kmeans' && selectedTarget === col}
+                  className="mr-2"
                 />
-                {col}
+                <span className="text-sm">{col}</span>
               </label>
             ))}
           </div>
@@ -140,32 +142,32 @@ const ModelPerformance = () => {
       )}
 
       {selectedModel && (
-        <div className="run-section">
-          <h2>Run {selectedModel === 'kmeans' ? 'KMeans Clustering' : selectedModel}</h2>
-          <button onClick={handleRunModel}>Run {selectedModel}</button>
+        <div className="run-section mb-4">
+          <h2 className="text-xl font-semibold mb-2">Run {selectedModel === 'kmeans' ? 'KMeans Clustering' : selectedModel}</h2>
+          <button onClick={handleRunModel} className="bg-blue-500 text-white px-4 py-2 rounded w-full">Run {selectedModel}</button>
         </div>
       )}
 
       {results && (
         <div className="results">
-          <h2>Results</h2>
-          <div className="graph-container">
+          <h2 className="text-xl font-semibold mb-2">Results</h2>
+          <div className="graph-container flex flex-col items-center">
             {selectedModel === 'kmeans' && (
               <>
-                <img src={`http://localhost:8000/output_plots/${results.originalPlot}`} alt="Original Data" />
-                <img src={`http://localhost:8000/output_plots/${results.clusteredPlot}`} alt="Clustered Data" />
+                <img src={`http://localhost:8000/output_plots/${results.originalPlot}`} alt="Original Data" className="w-full max-w-md mb-4" />
+                <img src={`http://localhost:8000/output_plots/${results.clusteredPlot}`} alt="Clustered Data" className="w-full max-w-md mb-4" />
               </>
             )}
             {selectedModel === 'linear' && (
               <>
-                <img src={`http://localhost:8000/output_plots/${results.predictedVsActual}`} alt="Predicted vs Actual" />
-                <img src={`http://localhost:8000/output_plots/${results.residuals}`} alt="Residuals" />
+                <img src={`http://localhost:8000/output_plots/${results.predictedVsActual}`} alt="Predicted vs Actual" className="w-full max-w-md mb-4" />
+                <img src={`http://localhost:8000/output_plots/${results.residuals}`} alt="Residuals" className="w-full max-w-md mb-4" />
               </>
             )}
             {selectedModel === 'logistic' && (
               <>
-                <img src={`http://localhost:8000/output_plots/${results.confusionMatrix}`} alt="Confusion Matrix" />
-                <img src={`http://localhost:8000/output_plots/${results.rocCurve}`} alt="ROC Curve" />
+                <img src={`http://localhost:8000/output_plots/${results.confusionMatrix}`} alt="Confusion Matrix" className="w-full max-w-md mb-4" />
+                <img src={`http://localhost:8000/output_plots/${results.rocCurve}`} alt="ROC Curve" className="w-full max-w-md mb-4" />
               </>
             )}
           </div>
