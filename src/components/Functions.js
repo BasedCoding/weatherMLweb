@@ -125,14 +125,32 @@ const WeatherChart = () => {
               placeholder="Temperature"
               type="number"
               value={temp}
-              onChange={(e) => setTemp(e.target.value)}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                if (value < -50) {
+                  setTemp(-50);
+                } else if (value > 50) {
+                  setTemp(50);
+                } else {
+                  setTemp(value);
+                }
+              }}
               required
             />
             <Input
               placeholder="Humidity"
               type="number"
               value={humidity}
-              onChange={(e) => setHumidity(e.target.value)}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                if (value < 0) {
+                  setHumidity(0);
+                } else if (value > 100) {
+                  setHumidity(100);
+                } else {
+                  setHumidity(value);
+                }
+              }}
               required
             />
             <Button onClick={handlePredictRain} type="primary" block>
@@ -142,11 +160,13 @@ const WeatherChart = () => {
             {rainPrediction !== null && (
               <div style={{ textAlign: 'center' }}>
                 <h3>Prediction Result:</h3>
+                <div style={{ display: 'flex', justifyContent: 'center'}}>
                 <img 
                   src={rainPrediction === "Rain" ? rainyIcon : sunnyIcon} 
                   alt={rainPrediction} 
                   style={{ width: '80px', height: '80px', maxWidth: '100%' }} 
                 />
+                </div>
                 <p>{rainPrediction}</p>
               </div>
             )}
