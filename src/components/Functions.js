@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Plot from 'react-plotly.js';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { Card, Input, Button, DatePicker, Space, Row, Col } from 'antd';
 import axios from 'axios';
 import sunnyIcon from './icons/sunny.jpg';
 import rainyIcon from './icons/rainy.jpg';
 
 const WeatherChart = () => {
+  // Set the valid date range
+  const minDate = dayjs('2024-01-01');
+  const maxDate = dayjs('2024-12-31');
+
   // State all variables
-  const [startDate, setStartDate] = useState(moment().subtract(30, 'days'));
-  const [endDate, setEndDate] = useState(moment().subtract(8, 'days'));
+  const [startDate, setStartDate] = useState(dayjs().subtract(30, 'days'));
+  const [endDate, setEndDate] = useState(dayjs().subtract(8, 'days'));
   const [weatherData, setWeatherData] = useState([]);
   const [temp, setTemp] = useState('');
   const [humidity, setHumidity] = useState('');
@@ -97,23 +101,27 @@ const WeatherChart = () => {
   };
 
   // Render the main page
-  return (
+return (
     <Card bodyStyle={{ padding: '16px' }}>
       <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-
-        {/* Render a date picker */}
         <Row gutter={[8, 8]}>
           <Col xs={24} sm={12}>
             <DatePicker
               value={startDate}
-              onChange={setStartDate}
+              onChange={(date) => setStartDate(date)}
+              disabledDate={(current) => 
+                current && (current < minDate || current > endDate || current > maxDate)
+              }
               style={{ width: '100%' }}
             />
           </Col>
           <Col xs={24} sm={12}>
             <DatePicker
               value={endDate}
-              onChange={setEndDate}
+              onChange={(date) => setEndDate(date)}
+              disabledDate={(current) => 
+                current && (current < startDate || current > maxDate || current < minDate)
+              }
               style={{ width: '100%' }}
             />
           </Col>
