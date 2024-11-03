@@ -1,18 +1,20 @@
+/* Main functions container styling */
 .main-functions {
-    max-width: 500px;
-    margin: auto;
-    padding: 20px;
-    background-color: #e8f0fe;
-    border-radius: 8px;
-  }
-  
-  .input-fields input {
-    width: 100%;
-    margin: 10px 0;
-  }
-  
-  h3 {
-    color: #333;
-    font-weight: 500;
-  }
-  
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+  background-color: #e8f0fe;
+  border-radius: 8px;
+}
+
+/* Input fields styling */
+.input-fields input {
+  width: 100%; 
+  margin: 10px 0; 
+}
+
+/* Heading (h3) styling */
+h3 {
+  color: #333;
+  font-weight: 500;
+}

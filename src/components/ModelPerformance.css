@@ -1,11 +1,13 @@
+/* Model performance container */
 .model-performance {
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-  }
-  
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+/* Form container styling */
 .form-container {
   max-width: 800px;
   margin: 20px auto;
@@ -17,6 +19,7 @@
   text-align: center;
 }
 
+/* Header styling within form container */
 .form-container h1, .form-container h2 {
   font-size: 1.5rem;
   font-weight: bold;
@@ -24,6 +27,8 @@
   text-align: center;
   margin-bottom: 1.5rem;
 }
+
+/* Upload section styling */
 .upload-section {
   margin-bottom: 1.5rem;
 }
@@ -32,6 +37,7 @@
   margin-right: 10px;
 }
 
+/* Upload button styling */
 .upload-section button {
   background-color: #007bff;
   color: white;
@@ -46,6 +52,7 @@
   background-color: #0056b3;
 }
 
+/* Button group for model selection */
 .btn-group {
   display: flex;
   gap: 1rem;
@@ -67,6 +74,7 @@
   background-color: #0056b3;
 }
 
+/* Run section styling */
 .run-section {
   margin-top: 2rem;
 }
@@ -85,6 +93,7 @@
   background-color: #4a148c;
 }
 
+/* Graph container for displaying images */
 .graph-container {
   display: flex;
   justify-content: center;

@@ -1,3 +1,4 @@
+/* Feedback container styling */
 .feedback-container {
   max-width: 600px;
   margin: 2rem auto;
@@ -9,12 +10,14 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Feedback page header styling */
 .feedback-container h1 {
   font-size: 2rem;
   color: #333;
   margin-bottom: 1rem;
 }
 
+/* Label styling within the feedback form */
 .feedback-form label {
   display: block;
   margin: 1rem 0;
@@ -22,6 +25,7 @@
   color: #555;
 }
 
+/* Select and textarea styling */
 .feedback-form select,
 .feedback-form textarea {
   width: 100%;
@@ -32,11 +36,13 @@
   font-size: 1rem;
 }
 
+/* Textarea-specific styling */
 .feedback-form textarea {
   resize: vertical;
   height: 100px;
 }
 
+/* Submit button styling */
 .feedback-form button {
   background-color: #007bff;
   color: white;
@@ -49,6 +55,7 @@
   transition: background-color 0.3s ease;
 }
 
+/* Hover effect for submit button */
 .feedback-form button:hover {
   background-color: #0056b3;
 }
