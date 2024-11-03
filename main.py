@@ -31,6 +31,7 @@ with open('ml_models/logistic_regression_model.pkl', 'rb') as file:
 async def root():
     return {"message": "Welcome to the Weather ML App API!"}
 
+# File upload endpoint
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
     # Save uploaded file to disk
@@ -43,6 +44,7 @@ async def upload_file(file: UploadFile = File(...)):
     data = pd.read_csv(file_location)
     return {"columns": data.columns.tolist(), "file_path": file_location}
 
+# KMeans clustering endpoint
 @app.post("/run-kmeans")
 async def run_kmeans(selected_columns: dict):
     file_path = selected_columns['file_path']
@@ -50,6 +52,7 @@ async def run_kmeans(selected_columns: dict):
     results = run_kmeans_clustering(file_path, columns)
     return results
 
+# Linear regression endpoint
 @app.post("/run-linear-regression")
 async def run_linear_regression_endpoint(request: dict):
     file_path = request['file_path']
@@ -58,6 +61,7 @@ async def run_linear_regression_endpoint(request: dict):
     results = run_linear_regression(file_path, features, target)
     return results
 
+# Logistic regression endpoint
 @app.post("/run-logistic-regression")
 async def run_logistic_regression_endpoint(request: dict):
     file_path = request['file_path']
@@ -66,6 +70,7 @@ async def run_logistic_regression_endpoint(request: dict):
     results = run_logistic_regression(file_path, features, target)
     return results
 
+# Rain prediction endpoint
 @app.post("/predict-rain")
 def predict_rain(temp: float, humidity: float):
     # Prepare the input data for prediction
@@ -76,6 +81,7 @@ def predict_rain(temp: float, humidity: float):
     
     return {"rain": bool(prediction[0])}
 
+# data retrieval endpoint
 @app.get("/data")
 async def get_data(start_date: str, end_date: str):
     try:
