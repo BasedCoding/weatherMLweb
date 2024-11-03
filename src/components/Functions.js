@@ -12,8 +12,8 @@ const WeatherChart = () => {
   const maxDate = dayjs('2024-12-31');
 
   // State all variables
-  const [startDate, setStartDate] = useState(dayjs().subtract(30, 'days'));
-  const [endDate, setEndDate] = useState(dayjs().subtract(8, 'days'));
+  const [startDate, setStartDate] = useState(dayjs('2024-10-20'));
+  const [endDate, setEndDate] = useState(dayjs('2024-11-5'));
   const [weatherData, setWeatherData] = useState([]);
   const [temp, setTemp] = useState('');
   const [humidity, setHumidity] = useState('');
