@@ -13,7 +13,15 @@ const ModelPerformance = () => {
   const [results, setResults] = useState(null);
 
   // Manange file inputs
-  const handleFileChange = (e) => setCsvFile(e.target.files[0]);
+  const handleFileChange = (e) => {
+    setCsvFile(e.target.files[0]);
+    setColumns([]);
+    setSelectedModel('');
+    setSelectedColumns([]);
+    setSelectedTarget('');
+    setFilePath('');
+    setResults(null);
+  };
 
   // Upload file and get column data from server
   const handleFileUpload = async () => {
@@ -26,6 +34,7 @@ const ModelPerformance = () => {
       setFilePath(response.data.file_path);
       setSelectedColumns([]);
       setSelectedTarget('');
+      setSelectedModel('');
       setResults(null);
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -40,7 +49,7 @@ const ModelPerformance = () => {
     setResults(null);
   };
 
-  // Update columns based on chosen model
+   // Update columns based on chosen model
   const handleColumnSelection = (column) => {
     setSelectedColumns(prev =>
       selectedModel === 'kmeans'
@@ -48,17 +57,19 @@ const ModelPerformance = () => {
           ? prev.filter(col => col !== column)
           : [...prev, column]
         : column !== selectedTarget
-          ? prev.includes(column)
-            ? prev.filter(col => col !== column)
-            : [...prev, column]
-          : prev
+        ? prev.includes(column)
+          ? prev.filter(col => col !== column)
+          : [...prev, column]
+        : prev
     );
+    setResults(null);
   };
 
-  // Assign the target variable, clear it from the selected columns
+    // Assign the target variable, clear it from the selected columns
   const handleTargetSelection = (column) => {
     setSelectedTarget(column);
     setSelectedColumns(prev => prev.filter(col => col !== column));
+    setResults(null);
   };
 
   // Run the selected model, handle various cases in each model
@@ -93,8 +104,17 @@ const ModelPerformance = () => {
 
       {/* File upload section */}
       <div className="upload-section mb-4">
-        <input type="file" onChange={handleFileChange} className="mb-2 w-full" />
-        <button onClick={handleFileUpload} className="bg-blue-500 text-white px-4 py-2 rounded w-full">Upload CSV</button>
+        <input 
+          type="file" 
+          onChange={handleFileChange} 
+          className="mb-2 w-full" 
+        />
+        <button 
+          onClick={handleFileUpload} 
+          className="bg-blue-500 text-white px-4 py-2 rounded w-full"
+        >
+          Upload CSV
+        </button>
       </div>
 
       {/* Model selection */}
@@ -166,20 +186,20 @@ const ModelPerformance = () => {
           <div className="graph-container flex flex-col items-center">
             {selectedModel === 'kmeans' && (
               <>
-                <img src={`http://localhost:8000/output_plots/${results.originalPlot}`} alt="Original Data" className="w-full max-w-md mb-4" />
-                <img src={`http://localhost:8000/output_plots/${results.clusteredPlot}`} alt="Clustered Data" className="w-full max-w-md mb-4" />
+                <img src={`http://localhost:8000/output_plots/${results.originalPlot}?${new Date().getTime()}`} alt="Original Data" className="w-full max-w-md mb-4" />
+                <img src={`http://localhost:8000/output_plots/${results.clusteredPlot}?${new Date().getTime()}`} alt="Clustered Data" className="w-full max-w-md mb-4" />
               </>
             )}
             {selectedModel === 'linear' && (
               <>
-                <img src={`http://localhost:8000/output_plots/${results.predictedVsActual}`} alt="Predicted vs Actual" className="w-full max-w-md mb-4" />
-                <img src={`http://localhost:8000/output_plots/${results.residuals}`} alt="Residuals" className="w-full max-w-md mb-4" />
+                <img src={`http://localhost:8000/output_plots/${results.predictedVsActual}?${new Date().getTime()}`} alt="Predicted vs Actual" className="w-full max-w-md mb-4" />
+                <img src={`http://localhost:8000/output_plots/${results.residuals}?${new Date().getTime()}`} alt="Residuals" className="w-full max-w-md mb-4" />
               </>
             )}
             {selectedModel === 'logistic' && (
               <>
-                <img src={`http://localhost:8000/output_plots/${results.confusionMatrix}`} alt="Confusion Matrix" className="w-full max-w-md mb-4" />
-                <img src={`http://localhost:8000/output_plots/${results.rocCurve}`} alt="ROC Curve" className="w-full max-w-md mb-4" />
+                <img src={`http://localhost:8000/output_plots/${results.confusionMatrix}?${new Date().getTime()}`} alt="Confusion Matrix" className="w-full max-w-md mb-4" />
+                <img src={`http://localhost:8000/output_plots/${results.rocCurve}?${new Date().getTime()}`} alt="ROC Curve" className="w-full max-w-md mb-4" />
               </>
             )}
           </div>
